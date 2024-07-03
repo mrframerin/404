@@ -1661,7 +1661,7 @@ parcelRequire = (function (init) {
     return Constructor;
   }
 
-  var $m6Ky$var$TEXT = "";
+  var $m6Ky$var$TEXT = "4";
   var $m6Ky$var$FONT_SIZE = 200;
   var $m6Ky$var$FONT_SIZE_SP = 24;
   var $m6Ky$var$FONT_SIZE_MIN = 20;
