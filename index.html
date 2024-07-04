@@ -2,7 +2,9 @@
 <html lang="en">
   <head>
     <style></style>
-    <title>My Pug Example</title>
+    <title>404 Framer</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r125/three.min.js"></script>
     <script src="index.js"></script>
@@ -13,36 +15,35 @@
       attribute float size;
       attribute vec3 customColor;
       varying vec3 vColor;
-    
+
       void main() {
-    
+
         vColor = customColor;
         vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );
         gl_PointSize = size * ( 300.0 / -mvPosition.z );
         gl_Position = projectionMatrix * mvPosition;
-    
+
       }
-    
     </script>
     <script type="x-shader/x-fragment" id="fragmentshader">
-    
-     uniform vec3 color;
-     uniform sampler2D pointTexture;
-    
-     varying vec3 vColor;
-    
-     void main() {
-    
-       gl_FragColor = vec4( color * vColor, 1.0 );
-       gl_FragColor = gl_FragColor * texture2D( pointTexture, gl_PointCoord );
-    
-     }
+
+      uniform vec3 color;
+      uniform sampler2D pointTexture;
+
+      varying vec3 vColor;
+
+      void main() {
+
+        gl_FragColor = vec4( color * vColor, 1.0 );
+        gl_FragColor = gl_FragColor * texture2D( pointTexture, gl_PointCoord );
+
+      }
     </script>
-    
+
     <div id="magic"></div>
     <div class="playground">
       <div class="bottomPosition">
-            <h1 class="special">Page Not Found</h1>
+        <h1 class="special">Page Not Found</h1>
       </div>
     </div>
   </body>
