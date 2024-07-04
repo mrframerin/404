@@ -6,7 +6,7 @@ const preload = () => {
 
   var typo = null;
   const loader = new THREE.FontLoader(manager);
-  const font = loader.load(
+  loader.load(
     "https://res.cloudinary.com/dydre7amr/raw/upload/v1612950355/font_zsd4dr.json",
     function (font) {
       typo = font;
@@ -62,7 +62,7 @@ class Environment {
       1,
       10000
     );
-    this.camera.position.set(0, 0, 100);
+    this.camera.position.set(0, 0, 100); // Centering the camera
   }
 
   createRenderer() {
@@ -71,12 +71,9 @@ class Environment {
       this.container.clientWidth,
       this.container.clientHeight
     );
-
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-
     this.renderer.outputEncoding = THREE.sRGBEncoding;
     this.container.appendChild(this.renderer.domElement);
-
     this.renderer.setAnimationLoop(() => {
       this.render();
     });
@@ -113,7 +110,7 @@ class CreateParticles {
       amount: 1500,
       particleSize: 1,
       particleColor: 0xffffff,
-      textSize: 38,
+      textSize: 40,
       area: 250,
       ease: 0.05,
     };
@@ -180,14 +177,14 @@ class CreateParticles {
     if (intersects.length > 0) {
       const pos = this.particles.geometry.attributes.position;
       const copy = this.geometryCopy.attributes.position;
-      const coulors = this.particles.geometry.attributes.customColor;
+      const colors = this.particles.geometry.attributes.customColor;
       const size = this.particles.geometry.attributes.size;
 
       const mx = intersects[0].point.x;
       const my = intersects[0].point.y;
       const mz = intersects[0].point.z;
 
-      for (var i = 0, l = pos.count; i < l; i++) {
+      for (let i = 0, l = pos.count; i < l; i++) {
         const initX = copy.getX(i);
         const initY = copy.getY(i);
         const initZ = copy.getZ(i);
@@ -197,13 +194,13 @@ class CreateParticles {
         let pz = pos.getZ(i);
 
         this.colorChange.setHSL(0, 0, 1.0);
-        coulors.setXYZ(
+        colors.setXYZ(
           i,
           this.colorChange.r,
           this.colorChange.g,
           this.colorChange.b
         );
-        coulors.needsUpdate = true;
+        colors.needsUpdate = true;
 
         size.array[i] = this.data.particleSize;
         size.needsUpdate = true;
@@ -222,13 +219,13 @@ class CreateParticles {
           py -= f * Math.sin(t);
 
           this.colorChange.setHSL(0.5 + zigzagTime, 1.0, 0.5);
-          coulors.setXYZ(
+          colors.setXYZ(
             i,
             this.colorChange.r,
             this.colorChange.g,
             this.colorChange.b
           );
-          coulors.needsUpdate = true;
+          colors.needsUpdate = true;
 
           if (
             px > initX + 70 ||
@@ -237,13 +234,13 @@ class CreateParticles {
             py < initY - 70
           ) {
             this.colorChange.setHSL(0.15, 1.0, 0.5);
-            coulors.setXYZ(
+            colors.setXYZ(
               i,
               this.colorChange.r,
               this.colorChange.g,
               this.colorChange.b
             );
-            coulors.needsUpdate = true;
+            colors.needsUpdate = true;
           }
         } else {
           if (mouseDistance < this.data.area) {
@@ -253,13 +250,13 @@ class CreateParticles {
               py -= 0.03 * Math.sin(t);
 
               this.colorChange.setHSL(240 / 360, 1, 0.5);
-              coulors.setXYZ(
+              colors.setXYZ(
                 i,
                 this.colorChange.r,
                 this.colorChange.g,
                 this.colorChange.b
               );
-              coulors.needsUpdate = true;
+              colors.needsUpdate = true;
 
               size.array[i] = this.data.particleSize / 1.2;
               size.needsUpdate = true;
@@ -282,13 +279,13 @@ class CreateParticles {
               py < initY - 10
             ) {
               this.colorChange.setHSL(0, 0, 1.0);
-              coulors.setXYZ(
+              colors.setXYZ(
                 i,
                 this.colorChange.r,
                 this.colorChange.g,
                 this.colorChange.b
               );
-              coulors.needsUpdate = true;
+              colors.needsUpdate = true;
 
               size.array[i] = this.data.particleSize / 1.8;
               size.needsUpdate = true;
@@ -316,7 +313,7 @@ class CreateParticles {
     const xMid =
       -0.5 * (geometry.boundingBox.max.x - geometry.boundingBox.min.x);
     const yMid =
-      (geometry.boundingBox.max.y - geometry.boundingBox.min.y) / 2.85;
+      -0.5 * (geometry.boundingBox.max.y - geometry.boundingBox.min.y); // Adjusted yMid
 
     geometry.center();
 
@@ -354,7 +351,7 @@ class CreateParticles {
     }
 
     let geoParticles = new THREE.BufferGeometry().setFromPoints(thePoints);
-    geoParticles.translate(xMid, yMid, 0);
+    geoParticles.translate(xMid, yMid, 0); // Centering the text
 
     geoParticles.setAttribute(
       "customColor",
@@ -372,7 +369,6 @@ class CreateParticles {
       },
       vertexShader: document.getElementById("vertexshader").textContent,
       fragmentShader: document.getElementById("fragmentshader").textContent,
-
       blending: THREE.AdditiveBlending,
       depthTest: false,
       transparent: true,
