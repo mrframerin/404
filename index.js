@@ -249,7 +249,7 @@ class CreateParticles {
               px -= 0.03 * Math.cos(t);
               py -= 0.03 * Math.sin(t);
 
-              this.colorChange.setHSL(240 / 360, 1, 0.5);
+              this.colorChange.setHSL(240 / 360, 0.8, 0.6);
               colors.setXYZ(
                 i,
                 this.colorChange.r,
